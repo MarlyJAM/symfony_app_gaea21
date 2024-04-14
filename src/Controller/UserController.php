@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,13 +64,12 @@ class UserController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, UserRepository $u_repository): Response
+    #[Route('/{id}', name: 'app_user_delete', methods: ['GET'])]
+    public function delete(EntityManagerInterface $manager, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-                $u_repository->remove($user, true);
-        }
-                
-        return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
+        $manager->remove($user);
+        $manager ->flush();
+
+        return $this-> redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
     }
 }
