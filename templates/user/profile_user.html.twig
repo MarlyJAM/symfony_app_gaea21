@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #FFFFFF; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <div class="container text-center">
+        <div class="row">
+            <h2>Propriétaire</h2><br><br>
+            <div class="col">
+                <table class="table table-bordered border-primary">
+                    <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Tel</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">{{user.id}}</th>
+                        <td>{{user.nom}}</td>
+                        <td>{{user.prenom}}</td>
+                        <td>{{age}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.adresse}}</td>
+                        <td>{{user.tel}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <h2>Possession(s)</h2><br><br>
+            <div class="col">
+            <table class="table table-bordered border-success">
+                <thead>
+                    <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Valeur</th>
+                    <th scope="col">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for possession in user.possession %}
+                    <tr>
+                    <td>{{possession.nom}}</td>
+                    <td>{{possession.valeur}}</td>
+                    <td>{{possession.type}}</td>
+                    </tr>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+           
+            </div>
+        </div>
+    
+                
+          
+    </div>
+</div>
+{% endblock %}

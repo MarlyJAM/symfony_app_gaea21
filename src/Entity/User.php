@@ -37,6 +37,9 @@ class User
     #[ORM\OneToMany(targetEntity: Possession::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $possession;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $birthDate = null;
+
     public function __construct()
     {
         $this->possession = new ArrayCollection();
@@ -133,6 +136,18 @@ class User
                 $possession->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): static
+    {
+        $this->birthDate = $birthDate;
 
         return $this;
     }
