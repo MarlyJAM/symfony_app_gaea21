@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -16,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry  ,private PaginatorInterface $paginator)
     {
         parent::__construct($registry, User::class);
     }
@@ -28,6 +30,25 @@ class UserRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function paginateUser(int $page) : PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->createQueryBuilder('u')->leftJoin('u.possession' , 'p')->select('u','p'),
+            $page,
+            20,
+
+            [
+
+                'distinct' => false,
+                'sortFieldAllowList' => ['u.id' , 'u.nom']
+
+            ]
+
+
+        );
+        
     }
 
     //    /**
